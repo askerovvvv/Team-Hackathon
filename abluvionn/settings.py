@@ -38,7 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'applications.account',
-    'applications.product'
+    'applications.product',
+    'rest_framework',
+    'rest_framework.authtoken'
 ]
 
 MIDDLEWARE = [
@@ -128,3 +130,19 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'account.CustomUser'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_PASSWORD = '2312naryn'
+EMAIL_HOST_USER = 'bekbol.2019@gmail.com'
+
+REST_FRAMEWORK = {
+    'DEFAULT-AUTHENTICATION-CLASSES': [
+        'rest_framework.authenticate.TokenAuthentication'
+    ]
+}
+
+
+
