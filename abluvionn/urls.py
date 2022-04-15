@@ -18,6 +18,8 @@ from django.urls import path, include
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 
+from applications.order.views import OrderView
+
 schema_view = get_schema_view(
     openapi.Info(
         title='Python18 online shop hackaton project',
@@ -33,5 +35,6 @@ urlpatterns = [
     path('account/', include('applications.account.urls')),
     path('swagger/', schema_view.with_ui('swagger')),
     path('review/', include('applications.review.urls')),
+    path('order/', OrderView.as_view({'post': 'create'}))
 
 ]
