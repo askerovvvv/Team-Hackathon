@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django_filters',
     'drf_yasg',
     'applications.review',
+    'applications.order'
 
 ]
 
@@ -83,7 +84,7 @@ WSGI_APPLICATION = 'abluvionn.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'test11',
+        'NAME': 'test33',
         'USER': 'hello',
         'PASSWORD': '1',
         'HOST': 'localhost',
