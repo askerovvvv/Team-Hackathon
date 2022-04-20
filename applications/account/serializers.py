@@ -54,3 +54,16 @@ class LoginSerializer(serializers.Serializer):
                 raise serializers.ValidationError("Неверный email или password")
             attrs['user'] = user
             return attrs
+
+
+class CustomSerializer(serializers.ModelSerializer):
+    # owner = serializers.ReadOnlyField(source='owner.email')    # это поле только для чтение(не обьязателньо заполнять)    || source='owner.email' = отображай email ownera
+    class Meta:
+        model = User
+        fields = ('id', 'is_superuser', 'date_joined', 'email')
+
+
+
+
+
+

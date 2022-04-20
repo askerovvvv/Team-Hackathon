@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'django_filters',
     'drf_yasg',
-    'applications.review',
+    'applications.telebot',
     'applications.order'
 
 ]
@@ -145,10 +145,14 @@ EMAIL_HOST_PASSWORD = '2312naryn'
 EMAIL_HOST_USER = 'bekbol.2019@gmail.com'
 
 REST_FRAMEWORK = {
-    'DEFAULT-AUTHENTICATION-CLASSES': [
-        'rest_framework.authenticate.TokenAuthentication'
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication'
     ]
 }
+
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media/' # картинки должны тут хранится
 
 
 
