@@ -23,7 +23,8 @@ class Order(models.Model):
     phone = models.CharField(max_length=30)
     created_at = models.DateTimeField(auto_now_add=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='order_product')
-    status = models.ForeignKey(Status, on_delete=models.CASCADE, related_name='order_product')
+    # status = models.ForeignKey(Status, on_delete=models.CASCADE, related_name='order_product')
+    name = models.CharField(max_length=500)
 
     def __str__(self):
         return 'Order {}'.format(self.id)

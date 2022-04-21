@@ -1,7 +1,8 @@
 from rest_framework import serializers
 from rest_framework.utils import representation
 
-from applications.product.models import Image, Product, ProductReview, Likes, ProductFavourites
+from applications.product.models import Image, Product, ProductReview, Likes, ProductFavourites# Rating
+# from parser import main
 
 
 class ProductImageSerializers(serializers.ModelSerializer):
@@ -11,42 +12,36 @@ class ProductImageSerializers(serializers.ModelSerializer):
 
 
 class ProductSerializer(serializers.ModelSerializer):
-    owner = serializers.ReadOnlyField(source='owner.email')    # это поле только для чтение(не обьязателньо заполнять)    || source='owner.email' = отображай email ownera
-    images = ProductImageSerializers(many=True, read_only=True)      # чтобы обрабатывать несколько картин
+    owner = serializers.ReadOnlyField(source='owner.email')
+    images = ProductImageSerializers(many=True, read_only=True)
 
     class Meta:
         model = Product
-        fields = ('id', 'owner', 'name', 'description', 'price', 'category', 'images') # images = related name в модельках
+        fields = ('id', 'owner', 'name', 'description', 'price', 'category', 'images',)
 
-    def create(self, validated_data): # переопределяем create он работает последним
-        request = self.context.get('request') # получили файлы которые передали в запросе
-        images_data = request.FILES # занесли в переменное
-        product = Product.objects.create(**validated_data) # validated_data хранятся те данные которые указали помимо images
-        for image in images_data.getlist('images'): # вытащи поля images
-            Image.objects.create(product=product, image=image) # models
+    def create(self, validated_data):
+        request = self.context.get('request')
+        images_data = request.FILES
+        product = Product.objects.create(**validated_data)
+        for image in images_data.getlist('images'):
+            Image.objects.create(product=product, image=image)
         return product
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
         # print(instance.review.all())
-        # print('dawwwwwwwwwwwwwwwwwwwwwwwwwwwww')
-
+        # representation['rating'] = Rating.objects.filter(product=instance).count()
         # rev = ReviewSerializer(ProductReview.objects.filter(product=instance))
         # rev = instance.review.all()
         # rev = ReviewSerializer(product=rev)
         # print(rev)
         # print(instance) ################### question
         # print(representation['description'])
-
+        representation['likes'] = Likes.objects.filter(product=instance).count()
         representation['review'] = ProductReview.objects.filter(product=instance).count()
-        print(representation['review'])
+        # print(representation['review'])
 
         return representation
-
-        # data = super(ProductSerializer, self).to_representation(instance)
-        # data.update(ReviewSerializer)
-        # return data
-
 
 
 class ReviewSerializer(serializers.ModelSerializer):
@@ -71,6 +66,48 @@ class LikeSerializers(serializers.ModelSerializer):
 
 
 class FavouritesSerializer(serializers.ModelSerializer):
+    owner = serializers.ReadOnlyField(source='owner.email')
     class Meta:
         model = ProductFavourites
         fields = "__all__"
+
+
+# class RatingSerializers(serializers.ModelSerializer):
+#     # owner = serializers.EmailField(required=False) # не обьязателньо к заполнению
+#
+#     class Meta:
+#         model = Rating
+#         fields = ('rating', ) # 'owner'
+
+
+
+# class ParserSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = PhonesParser
+#         fields = '__all__'
+
+
+    # def create(self, request):
+        # print('+++++++++++++++++++++++++++++++++++++++')
+        # vacations = main()
+        # print('---------------------------------------')
+        # print(vacations)
+        # title = vacations.get('title')
+        # price = vacations.get('price')
+        # image = vacations.get('image')
+        # PhonesParser.objects.create(title=title, price=price, image=image)
+
+
+    # def create(self, validated_data):
+    #     requests = self.context.get('request')
+    #     vacation = validated_data.get('title')
+    #     if PhonesParser.objects.filter(title=vacation):
+    #         return PhonesParser.objects.get(title=vacation)
+    #
+    #     else:
+    #         return PhonesParser.objects.create(title=vacation)
+
+
+
+
+

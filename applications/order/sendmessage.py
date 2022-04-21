@@ -8,7 +8,7 @@ text = 'admindnq'
 
 
 
-def sendTelegram(tg_phone):
+def sendTelegram(tg_phone, tg_name):
     settings = TeleSettings.objects.get(pk=1)
     token = str(settings.token)
     chat_id = str(settings.chat)
@@ -25,7 +25,7 @@ def sendTelegram(tg_phone):
     part_2 = text[b+1:c]
     part_3 = text[d:-1]
 
-    text_slise = part_1 + part_2 + tg_phone + part_3
+    text_slise = part_1 + tg_name + part_2 + tg_phone + part_3
 
 
     req = requests.post(method, data={

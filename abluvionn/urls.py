@@ -39,5 +39,5 @@ urlpatterns = [
     # path('order/', OrderView.as_view({'post': 'create'})),
     path('product/', include('applications.product.urls')),
     path('order/', include('applications.order.urls')),
-]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
