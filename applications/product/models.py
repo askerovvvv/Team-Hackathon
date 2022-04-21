@@ -16,7 +16,7 @@ class Category(models.Model):
 class Product(models.Model):
     owner = models.ForeignKey(User, related_name='products', on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
-    description = models.TextField()
+    description = models.TextField(blank=True, null=True)
     category = models.ForeignKey(Category, related_name='product', on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     pub_date = models.DateTimeField(auto_now_add= True)
@@ -40,10 +40,6 @@ class ProductFavourites(models.Model):
 class ProductReview(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='review')
     description = models.TextField()
-    rating = models.SmallIntegerField(validators=[
-        MinValueValidator(1),
-        MaxValueValidator(5),
-    ])  # сам рейтинг оценка от 1 до 5
 
     def __str__(self):
         return self.description
@@ -55,3 +51,13 @@ class Likes(models.Model):
 
     def __str__(self):
         return f'{self.owner}--likes-> {self.product}'
+
+#
+# class Rating(models.Model):
+#     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='rating')
+#     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='rating')
+#     rating = models.SmallIntegerField(validators=[
+#         MinValueValidator(1),
+#         MaxValueValidator(5),
+#     ])
+#

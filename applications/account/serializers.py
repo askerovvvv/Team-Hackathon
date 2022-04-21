@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model, authenticate
 from rest_framework import serializers
 
+from applications.account.models import CustomUser
 from applications.account.send_mail import send_confirmation_email
 
 User = get_user_model()
@@ -57,11 +58,10 @@ class LoginSerializer(serializers.Serializer):
 
 
 class CustomSerializer(serializers.ModelSerializer):
-    # owner = serializers.ReadOnlyField(source='owner.email')    # это поле только для чтение(не обьязателньо заполнять)    || source='owner.email' = отображай email ownera
+    # owner = serializers.ReadOnlyField(source='owner.email')
     class Meta:
         model = User
         fields = ('id', 'is_superuser', 'date_joined', 'email')
-
 
 
 

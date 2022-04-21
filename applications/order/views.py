@@ -21,15 +21,16 @@ class OrderView(GenericViewSet, CreateModelMixin):
 def order(request):
     # print(dir(request.user))
     if request.user.is_authenticated:
-        serializer = OrderProductSerializer(data=request.data) # десерилизация для БД
-        if serializer.is_valid(): # все ли данные указали,все ли серилизовали; проверяет на правильность
-            serializer.save() # записывает информацию в базу данных
-            sendTelegram(request.data['phone'])
-            return Response("Ваша заявка принята!") # выводит созданную инФОРМАЦИЮ а так же статус
+        serializer = OrderProductSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            sendTelegram(request.data['phone'], request.data['name'])
+            return Response("Ваша заявка принята!")
         else:
             return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
     else:
         return Response("Войдите в систему")
+
 
 
 @api_view(['GET'])
@@ -43,6 +44,3 @@ def order_history(request):
         return Response("Войдите в систему")
 
 
-
-#
-# #
