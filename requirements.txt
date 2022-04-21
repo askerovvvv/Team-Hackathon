@@ -11,3 +11,6 @@ drf-yasg
 django-filter
 
 
+beautifulsoup4
+lxml
+

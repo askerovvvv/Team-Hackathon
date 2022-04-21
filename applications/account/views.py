@@ -2,10 +2,11 @@ from django.contrib.auth import get_user_model
 from django.shortcuts import render
 from rest_framework import status
 from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from applications.account.serializers import RegisterSerializer, LoginSerializer
+from applications.account.serializers import RegisterSerializer, LoginSerializer, CustomSerializer
 
 User = get_user_model()
 
@@ -34,5 +35,16 @@ class ActivationApiView(APIView):
 
 class LoginApiView(ObtainAuthToken):
     serializer_class = LoginSerializer
+
+
+@api_view(['GET'])
+def custom(request):
+    if request.user.is_authenticated:
+        produ = request.user
+        serializer = CustomSerializer(produ, many=False)
+        return Response(serializer.data)
+    else:
+        return Response("Войдите в систему")
+
 
 

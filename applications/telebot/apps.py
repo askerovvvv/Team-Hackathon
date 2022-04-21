@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class ReviewConfig(AppConfig):
+class TelebotConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'applications.review'
+    name = 'applications.telebot'
